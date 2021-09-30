@@ -198,19 +198,6 @@ export async function fetchRevisions(
   return { branches, tags };
 }
 
-export const fetchTree = (
-  projectUrn: string,
-  peerId: PeerId,
-  revision: RevisionSelector,
-  prefix: string,
-  signal?: AbortSignal
-): Promise<Tree> => {
-  return api.get<Tree>(`source/tree/${projectUrn}`, {
-    query: { peerId, revision: { ...revision, peerId }, prefix },
-    signal,
-  });
-};
-
 export const getLocalState = (path: string): Promise<LocalState> => {
   return api.get<LocalState>(`source/local-state`, {
     query: { path },

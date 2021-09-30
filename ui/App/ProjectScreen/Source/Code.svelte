@@ -8,8 +8,7 @@
 <script lang="typescript">
   import type { Sha1 } from "ui/src/source";
   import * as router from "ui/src/router";
-
-  import { fetchTree } from "ui/src/source";
+  import * as proxy from "ui/src/proxy";
   import { selectPath, store } from "ui/src/screen/project/source";
 
   import FileView from "./SourceBrowser/FileView.svelte";
@@ -75,12 +74,12 @@
         <div class="source-tree" data-cy="source-tree">
           <Tree
             fetchTree={path =>
-              fetchTree(
-                project.urn,
-                peer.peerId,
-                selectedRevision.selected,
-                path
-              )}
+              proxy.client.source.treeGet({
+                projectUrn: project.urn,
+                peerId: peer.peerId,
+                revision: selectedRevision.selected,
+                prefix: path,
+              })}
             on:select={onSelectPath}
             {selectedPath}
             {selectedRevision}
